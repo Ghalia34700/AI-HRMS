@@ -1,5 +1,4 @@
 from django.db import models
-from pip._internal.resolution.resolvelib.base import Candidate
 
 
 class Resume(models.Model):
@@ -8,7 +7,7 @@ class Resume(models.Model):
         on_delete=models.CASCADE,
         related_name="resumes",
     )
-    file = models.FileField(upload_to="resumes/%Y/%m %H:%M")
+    file = models.FileField(upload_to="resumes/%Y/%m/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
