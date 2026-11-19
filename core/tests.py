@@ -31,7 +31,7 @@ class SerializerTests(TestCase):
             job_position=cls.position,
             score=80,
             recommendation=ScreeningResult.Recommendation.PROCEED,
-            missing_skills=ScreeningResult.Recommendation.HOLD,
+            missing_skills=["Docker"],
         )
         cls.questions = InterviewQuestionSet.objects.create(
             candidate=cls.candidate,
