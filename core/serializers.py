@@ -38,8 +38,18 @@ class JobPositionSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "required_skills",
+            "created_at"
         ]
-        read_only_fields = ["id", "department_name"]
+        read_only_fields = ["id", "department_name", "created_at"]
+
+    def validate_required_skills(self, value):
+        if not isinstance(value, list) or not all(
+                isinstance(s, str) and s.strip() for s in value
+        ):
+            raise serializers.ValidationError(
+                "required_skills must be a list of non-empty strings."
+            )
+        return [s.strip() for s in value]
 
 
 ALLOWED_RESUME_EXTENSIONS = ("pdf", "docx", "txt")
@@ -104,7 +114,7 @@ class InterviewQuestionSetSerializer(serializers.ModelSerializer):
             "job_position_title",
             "screening_result",
             "technical_questions",
-            "behavioural_questions",
+            "behavioral_questions",
             "follow_up_questions",
             "generated_at",
         ]

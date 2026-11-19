@@ -5,4 +5,3 @@ psycopg2-binary==2.9.13
 python-decouple
 sqlparse==0.6.1
 tzdata==2026.6
-openai

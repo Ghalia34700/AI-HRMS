@@ -27,9 +27,9 @@ class CandidateAdmin(admin.ModelAdmin):
 
 @admin.register(JobPosition)
 class JobPositionAdmin(admin.ModelAdmin):
-    list_display = ("title", "department")
+    list_display = ("title", "department", "created_at")
     list_filter = ("department",)
-    search_fields = ("title", "description", "required_skills", "department__name")
+    search_fields = ("title", "description", "department__name")
     list_select_related = ("department",)
 
 

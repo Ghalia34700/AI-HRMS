@@ -110,7 +110,7 @@ class DetailEndpointTests(TestCase):
             job_position=cls.position,
             score=80,
             recommendation=ScreeningResult.Recommendation.PROCEED,
-            missing_skills=ScreeningResult.Recommendation.HOLD,
+            missing_skills=["Docker"],
             strengths=["Python"],
             summary="Strong fit",
         )
@@ -119,7 +119,7 @@ class DetailEndpointTests(TestCase):
             job_position=cls.position,
             screening_result=cls.screening,
             technical_questions=["Explain the GIL"],
-            behavioural_questions=["Tell me about a conflict"],
+            behavioral_questions=["Tell me about a conflict"],
             follow_up_questions=["Why Django?"],
         )
 
@@ -156,7 +156,7 @@ class DetailEndpointTests(TestCase):
         self.assertEqual(response.data["id"], self.questions.id)
         self.assertEqual(response.data["screening_result"], self.screening.id)
         self.assertEqual(response.data["technical_questions"], ["Explain the GIL"])
-        self.assertEqual(response.data["behavioural_questions"], ["Tell me about a conflict"])
+        self.assertEqual(response.data["behavioral_questions"], ["Tell me about a conflict"])
         self.assertEqual(response.data["follow_up_questions"], ["Why Django?"])
 
     def test_question_set_not_found(self):

@@ -44,7 +44,7 @@ class JobPositionCreateTests(TestCase):
         self.department = Department.objects.create(name="Engineering")
 
     def test_creates_position_with_department_name(self):
-        payload = {"department": self.department.id, "title": "Backend Developer", "required_skills": "Python, Django"}
+        payload = {"department": self.department.id, "title": "Backend Developer", "required_skills": ["Python, Django"]}
         response = self.client.post(self.url, payload, format="json")
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data["department"], self.department.id)
