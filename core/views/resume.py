@@ -8,30 +8,46 @@ from core.serializers import ResumeSerializer
 
 
 class ResumeUploadView(APIView):
-    """POST /api/candidates/<candidate_id>/resumes/ - upload a resume for a candidate.
+    """
+    POST /api/candidates/<candidate_id>/resumes/
 
-    Send as multipart/form-data with the file in the `file` field.
-    Only PDF, DOCX and TXT files up to 5 MB are accepted.
+    Upload a resume for an existing candidate.
 
-    201 with the created resume on success.
-    404 if the candidate does not exist.
-    400 with a `file` error if the file is missing, empty, too large or of an
-    unsupported type.
+    Accepted formats: PDF, DOCX, TXT.
+    Maximum file size: 5 MB.
     """
 
     parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, candidate_id):
+        # Find the candidate
         try:
             candidate = Candidate.objects.get(pk=candidate_id)
         except Candidate.DoesNotExist:
-            return Response({"detail": "Candidate not found."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"detail": "Candidate not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
-        # The candidate always comes from the URL, never from the request body.
-        data = {"candidate": candidate.pk, "file": request.data.get("file")}
-        serializer = ResumeSerializer(data=data, context={"request": request})
+        # Get the uploaded file
+        data = {
+            "candidate": candidate.pk,
+            "file": request.data.get("file")
+        }
+
+        # Validate the resume
+        serializer = ResumeSerializer(data=data)
+
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
+        # Save the resume
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )

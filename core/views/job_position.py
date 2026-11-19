@@ -1,11 +1,10 @@
-from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
-
+from rest_framework import generics
 from core.serializers import JobPositionSerializer
+from core.models import JobPosition
 
 
-class JobPositionCreateView(APIView):
+class JobPositionCreateView(generics.CreateAPIView):
     """POST /api/job-positions/ - create a job position under an existing department.
 
     Request body: {"department": <department id>, "title": "...", ...}
@@ -16,10 +15,5 @@ class JobPositionCreateView(APIView):
     department.
     """
 
-    def post(self, request):
-        serializer = JobPositionSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    queryset = JobPosition.objects.all()
+    serializer_class = JobPositionSerializer

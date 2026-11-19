@@ -19,7 +19,12 @@ class JobPositionSerializer(serializers.ModelSerializer):
             "required_skills",
             "created_at"
         ]
-        read_only_fields = ["id", "department_name", "created_at"]
+
+        read_only_fields = [
+            "id",
+            "department_name",
+            "created_at"
+        ]
 
     def validate_required_skills(self, value):
         if not isinstance(value, list) or not all(

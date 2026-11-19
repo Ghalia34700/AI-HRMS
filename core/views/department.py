@@ -1,11 +1,10 @@
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
 
+from core.models import Department
 from core.serializers import DepartmentSerializer
 
 
-class DepartmentCreateView(APIView):
+class DepartmentCreateView(generics.CreateAPIView):
     """POST /api/departments/ - create a department.
 
     201 with the created department on success.
@@ -13,10 +12,5 @@ class DepartmentCreateView(APIView):
     or duplicate name).
     """
 
-    def post(self, request):
-        serializer = DepartmentSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer

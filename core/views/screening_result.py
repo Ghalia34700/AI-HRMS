@@ -1,26 +1,19 @@
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
 
 from core.models import ScreeningResult
 from core.serializers import ScreeningResultSerializer
 
 
-class ScreeningResultDetailView(APIView):
-    """GET /api/screening-results/<id>/ - return one screening result.
+class ScreeningResultDetailView(generics.RetrieveAPIView):
+    """
+    GET /api/screening-results/<id>/
 
-    200 with the screening result on success.
-    404 if no screening result has that id.
+    Retrieve one screening result.
+    Returns 200 if found and 404 if not found.
     """
 
-    def get(self, request, pk):
-        try:
-            screening_result = ScreeningResult.objects.select_related(
-                "candidate", "job_position"
-            ).get(pk=pk)
-        except ScreeningResult.DoesNotExist:
-            return Response(
-                {"detail": "Screening result not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        return Response(ScreeningResultSerializer(screening_result).data)
+    queryset = ScreeningResult.objects.select_related(
+        "candidate",
+        "job_position"
+    )
+    serializer_class = ScreeningResultSerializer
