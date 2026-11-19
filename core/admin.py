@@ -9,7 +9,6 @@ from core.models import (
     ScreeningResult,
 )
 
-
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ("name", "created_at")
