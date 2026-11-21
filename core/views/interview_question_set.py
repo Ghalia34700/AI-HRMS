@@ -5,29 +5,11 @@ from django.shortcuts import get_object_or_404
 from core.models import InterviewQuestionSet
 from core.serializers import InterviewQuestionSetSerializer
 
-
-class InterviewQuestionSetDetailView(APIView):
-    """GET /api/interview-question-sets/<id>/ - return one interview question set.
-
-    200 with the question set on success.
-    404 if no question set has that id.
-    """
-
-    def get(self, request, pk):
-        try:
-            question_set = InterviewQuestionSet.objects.select_related(
-                "candidate", "job_position"
-            ).get(pk=pk)
-        except InterviewQuestionSet.DoesNotExist:
-            return Response(
-                {"detail": "Interview question set not found."}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        return Response(InterviewQuestionSetSerializer(question_set).data)
-
-    def get(self, request, pk):
-        question_set = get_object_or_404(
-            InterviewQuestionSet.objects.select_related("candidate", "job_position"),
-            pk=pk,
-        )
-        return Response(InterviewQuestionSetSerializer(question_set).data)
+@api_view(["GET"])
+def interview_question_set_detail(request, pk):
+    """GET /api/interview-question-sets/<id>/ - 200 or 404."""
+    question_set = get_object_or_404(
+        InterviewQuestionSet.objects.select_related("candidate", "job_position"),
+        pk=pk,
+    )
+    return Response(InterviewQuestionSetSerializer(question_set).data)
