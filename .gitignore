@@ -44,4 +44,5 @@ dist/
 
 # OS files
 .DS_Store
-Thumbs.db
+Thumbs.db.venv311/
+.venv311/
