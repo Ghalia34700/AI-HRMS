@@ -1,0 +1,60 @@
+
+resume_screening_task:
+  description: >
+    Inputs:
+    candidate_resume: {candidate_resume}
+    job_title: {job_title}
+    job_description: {job_description}
+    required_skills: {required_skills}
+
+    Task:
+    1. Extract relevant education, qualifications, work experience,
+       technical skills, and soft skills from the candidate's resume.
+
+    2. Evaluate the candidate's skills, experience, and qualifications
+       against the job requirements and identify relevant matches.
+
+    3. Identify key strengths and missing or insufficiently demonstrated
+       skills based on the job requirements.
+
+    4. Calculate a justified compatibility score (0-100), considering
+       required skills, relevant experience, and qualifications.
+
+    5. Provide an objective recommendation based exclusively on
+       job-related evidence:
+       - proceed: Strong match; recommend for interview.
+       - hold: Partial match; requires human review.
+       - reject: Weak match; does not sufficiently meet requirements.
+
+    6. Ensure all findings are supported by the resume. Never invent,
+       assume, or infer unverified qualifications or experience.
+
+    7. Write a concise 2-3 sentence summary explaining the score
+       and recommendation.
+
+    8. Maintain fairness by ignoring protected characteristics and
+       personal information unrelated to job performance.
+
+  expected_output: >
+    Return ONLY a valid JSON object without Markdown fences.
+    Use exactly the following structure:
+
+    {
+      "score": 0,
+      "extracted_technical_skills": [],
+      "extracted_soft_skills": [],
+      "strengths": [],
+      "missing_skills": [],
+      "recommendation": "hold",
+      "summary": "A concise evidence-based assessment."
+    }
+
+    Output requirements:
+    - score must be an integer between 0 and 100.
+    - All skills and strengths must be returned as arrays of strings.
+    - recommendation must be exactly "proceed", "hold", or "reject".
+    - summary must contain 2-3 sentences.
+    - Do not include additional fields or explanatory text.
+    - Ensure the output is valid JSON.
+
+  agent: resume_screening_agent

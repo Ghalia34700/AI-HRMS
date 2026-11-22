@@ -1,0 +1,48 @@
+interview_question_task:
+  description: >
+    Create a tailored set of interview questions for this candidate.
+
+    Candidate resume:
+    {candidate_resume}
+
+    Job title:
+    {job_title}
+
+    Job description:
+    {job_description}
+
+    Screening report:
+    {screening_report}
+
+    Work through these tasks in order:
+
+    1. Read the resume, the job description and the screening report. Note the
+       candidate's strengths, the skills the screening report marks as missing or
+       weak, and any gaps or unclear points in the resume.
+
+    2. Write technical questions that:
+       - verify the candidate's claimed skills with specific, practical questions
+       - probe each missing or weak skill named in the screening report
+       - match the seniority and requirements of the job
+
+    3. Write behavioral questions that:
+       - assess soft skills such as communication, teamwork, problem solving and adaptability
+       - assess motivation and fit for the role and its responsibilities
+       - ask for real past examples (for example, "Tell me about a time when...")
+
+    4. Write follow-up questions that:
+       - dig into specific projects, achievements or experiences on the resume
+       - ask about employment gaps, short stays, career changes or unclear points, in a neutral and respectful way
+       - help the interviewer go deeper after the candidate's first answer
+
+    5. Check the questions before you finish:
+       - every question refers to this candidate or this role, not a generic template
+       - no question asks about protected characteristics
+       - no question is repeated across the three groups
+  expected_output: >
+    
+    A valid JSON object with exactly three keys: technical_questions,
+    behavioral_questions and follow_up_questions. Each key holds a list of strings,
+    and each string is one complete interview question. Return only the JSON
+    object, with no extra text, no explanation and no markdown code fences.
+  agent: interview_question_generator
